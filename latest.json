@@ -1,0 +1,19 @@
+{
+  "version": "0.1.90",
+  "notes": "",
+  "pub_date": "2026-09-08T14:31:15Z",
+  "platforms": {
+    "windows-x86_64": {
+      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVUNEVEb2IxbGFydDdzRS94T2VPRHR1K1NQdHNsQkp1dndXQWw3ckozbzUrOUVacDdTZkFScFpiSEw4MEc2Vk1DSjkzZWdhajhLR21sREEvSkxuUVZ2U284S0w2WWI4d1FZPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzg4ODc1NzY4CWZpbGU6Q29tcHJlc3NvXzAuMS45MF94NjRfZW4tVVMubXNpCk5PckhqU2sxOXhtOTRpaWVobUZoa2s1akNudi9BYTl2bmc4VHhrM09kZ0psbmxNbnR3Y0UrYXBwbVg1T0Zyc25lSmE5NHphMkxVZGExWThacG1CNERRPT0K",
+      "url": "https://pub-f9be02bb501644fbb358ddcceb4e2b89.r2.dev/windows/x86_64/0.1.90/Compresso_0.1.90_x64_en-US.msi"
+    },
+    "darwin-x86_64": {
+      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVUNEVEb2IxbGFydDJsWjE2ME5VNEdmQk1JYVVWckJnYVBSNkFqZEtpK0VURUc2T29rTEV3M242dUZiSnc0TlhqVVk4Q0p2SEhsRlVkUmRHSGFSeWlLSUgwbjFNbjNQekFNPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzg4ODc3NzUzCWZpbGU6Q29tcHJlc3NvLmFwcC50YXIuZ3oKTzlETUxTWnZvcDhZVitCUVl2UVpJM25FTnp0aDhRUExXRkV2Mlk2cGxVb21WVExOdCs3UzZpNjRkS0RiUUVrQlhrR2hCQ0crUHBzZTgvUW9RQ2x4QkE9PQo=",
+      "url": "https://pub-f9be02bb501644fbb358ddcceb4e2b89.r2.dev/macos/x86_64/0.1.90/Compresso.app.tar.gz"
+    },
+    "darwin-aarch64": {
+      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVUNEVEb2IxbGFydDA2ejRDUDJHcnNnYVlDRDZCOGs0MDNUZDBpK2ZNdkxyY3JJN1RjZ2ljb0RUUXBlTUx5cDc4SFB4aVBJNFFST29iQW9VVDN0UDRUSk9xV0dMMElBeFFVPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzg4ODc3ODM3CWZpbGU6Q29tcHJlc3NvLmFwcC50YXIuZ3oKQng5cUwwQXMzZ25lOEZ4YW5BVDA5eDhadk96enNrZUp5bU9ZVDRTRXNRdmJtQ3R5ajJDZUZBcXVjamNJSUxDRzVwZ0xLQjhhbHdXM1J6M1FEOEF2Q1E9PQo=",
+      "url": "https://pub-f9be02bb501644fbb358ddcceb4e2b89.r2.dev/macos/aarch64/0.1.90/Compresso.app.tar.gz"
+    }
+  }
+}

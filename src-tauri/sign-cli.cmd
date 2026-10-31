@@ -1,0 +1,1 @@
+powershell -executionpolicy unrestricted -File %REPO_PATH%/src-tauri/sign.ps1 %1

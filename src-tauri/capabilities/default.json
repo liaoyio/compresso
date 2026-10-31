@@ -1,0 +1,113 @@
+{
+  "$schema": "../gen/schemas/desktop-schema.json",
+  "identifier": "default",
+  "description": "Capability for the main window",
+  "windows": [
+    "main"
+  ],
+  "permissions": [
+    "core:event:allow-listen",
+    "core:event:default",
+    "core:app:default",
+    "shell:allow-open",
+    "shell:allow-kill",
+    "core:resources:default",
+    "core:event:default",
+    "core:window:default",
+    "core:menu:default",
+    "core:tray:default",
+    "clipboard-manager:allow-write-text",    
+    {
+      "identifier": "shell:allow-spawn",
+      "allow": [
+        {
+          "args": true,
+          "cmd": "",
+          "name": "binaries/ffmpeg",
+          "sidecar": true
+        },
+        {
+          "args": true,
+          "cmd": "",
+          "name": "binaries/ffprobe",
+          "sidecar": true
+        }
+      ]
+    },
+    {
+      "identifier": "shell:allow-execute",
+      "allow": [
+        {
+          "args": true,
+          "cmd": "",
+          "name": "binaries/ffmpeg",
+          "sidecar": true
+        },
+        {
+          "args": true,
+          "cmd": "",
+          "name": "binaries/ffprobe",
+          "sidecar": true
+        }
+      ]
+    },
+    "shell:allow-stdin-write",
+    "fs:allow-write",
+    "fs:allow-read-text-file",
+    "fs:allow-read-file",
+    "fs:scope",
+    "core:path:allow-resolve",
+    "fs:allow-temp-write",
+    "fs:allow-read",
+    "fs:allow-resource-read-recursive",
+    "fs:allow-temp-read",
+    "fs:allow-video-read",
+    "fs:allow-resource-read",
+    "dialog:allow-save",
+    "dialog:default",
+    "core:path:allow-resolve-directory",
+    "core:path:default",
+    "core:window:allow-start-dragging",
+    "core:window:allow-set-always-on-top",
+    "updater:default",
+    "updater:allow-download",
+    "updater:allow-install",
+    "updater:allow-check",
+    "updater:allow-download-and-install",
+    "core:window:allow-set-size",
+    "core:window:allow-set-max-size",
+    "core:window:allow-set-maximizable",
+    "core:window:allow-set-resizable",
+    "clipboard-manager:default"
+  ],
+  "plugins": {
+    "fs": {
+      "all": true,
+      "scope": {
+        "allow": [
+          "$TEMP/*",
+          "$RESOURCE/release-notes.md"
+        ]
+      }
+    },
+    "shell": {
+      "scope": [
+        {
+          "cmd": "binaries/ffmpeg",
+          "name": "binaries/ffmpeg",
+          "sidecar": true,
+          "args": true
+        },
+        {
+          "cmd": "binaries/ffprobe",
+          "name": "binaries/ffprobe",
+          "sidecar": true,
+          "args": true
+        }
+      ]
+    },
+    "protocol": {
+      "all": true
+    }
+  }
+}
