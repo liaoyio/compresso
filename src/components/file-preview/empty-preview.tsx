@@ -82,13 +82,13 @@ const OnboardingVideo = () => {
       >
         <div className="w-full flex justify-between items-start opacity-80">
           <h1 className="text-xl tracking-tighter font-bold shrink">
-            Getting started
+            新手引导
           </h1>
           <ul className="">
-            <li>Drag in a video</li>
-            <li>Click Show in Folder</li>
-            <li>Open Settings</li>
-            <li>Try the Mini mode</li>
+            <li>拖入一个视频</li>
+            <li>点击「在文件夹中显示」</li>
+            <li>打开设置</li>
+            <li>试试迷你模式</li>
           </ul>
 
           <button

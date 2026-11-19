@@ -26,7 +26,6 @@ import { useFileSelection, useOptimizeConfig } from "@/lib/store/store-hooks";
 
 import { FileName } from "./size-counter";
 import { useFileItemContextMenu } from "./use-file-item-context-menu";
-import { usePostHog } from "posthog-js/react";
 import { Button } from "../ui/button";
 import { showInFolder } from "@/lib/rust-function-calls";
 import { FileBadge, getVariant } from "../file-badge";
@@ -41,23 +40,13 @@ export const calculatePctSmaller = (
   );
 };
 
-export const FileItem = ({
-  file,
-  hasPaid,
-  loadingAccess,
-}: {
-  file: CompressoFile;
-  hasPaid: boolean;
-  loadingAccess: boolean;
-}) => {
+export const FileItem = ({ file }: { file: CompressoFile }) => {
   // starts optimizing if not already optimized
   const { optimizeConfig } = useOptimizeConfig();
 
   const { progress, error, abort, isRetry } = useOptimizeImmediately({
     file,
     config: optimizeConfig,
-    hasPaid,
-    loadingAccess,
   });
   const { selectedFileIds } = useFileSelection();
   const { updateFileProgress } = useCompressoFiles();
@@ -74,7 +63,6 @@ export const FileItem = ({
 
   const { clearFileWithId, setFileStatus } = useCompressoFiles();
   const { queueFileForRecompress } = useReoptimize();
-  const postHog = usePostHog();
 
   const { handleContextMenu } = useFileItemContextMenu({
     abort,
@@ -86,7 +74,6 @@ export const FileItem = ({
     recompress: () => {
       queueFileForRecompress(file.id);
     },
-    postHog,
   });
 
   // get display info
@@ -190,14 +177,14 @@ export const FileItem = ({
         </div>
         <div className=" flex items-center">
           <Button
-            title="Show in folder"
+            title="在文件夹中显示"
             variant="ghost"
             size="sm"
             disabled={file.status !== "done"}
             onClick={(e) => {
               e.stopPropagation();
               if (progress?.finalPath) {
-                showInFolder(progress.finalPath, postHog);
+                showInFolder(progress.finalPath);
               }
             }}
           >
@@ -205,7 +192,7 @@ export const FileItem = ({
           </Button>
 
           <Button
-            title="Remove from list"
+            title="从列表中移除"
             variant="ghost"
             disabled={file.status === "compressing"}
             size="sm"
@@ -218,7 +205,7 @@ export const FileItem = ({
             <Button
               variant="ghost"
               size="sm"
-              title="Stop compression"
+              title="停止压缩"
               onClick={(e) => {
                 e.stopPropagation();
                 abortCompression();
@@ -231,7 +218,7 @@ export const FileItem = ({
           {file.status !== "compressing" && file.status !== "waiting" && (
             <>
               <Button
-                title="Compress now"
+                title="立即压缩"
                 variant="ghost"
                 className="text-xs opacity-60"
                 size="sm"
@@ -240,7 +227,7 @@ export const FileItem = ({
                   setFileStatus(file.id, "waiting");
                 }}
               >
-                GO
+                压缩
                 <ChevronRight className="w-3 h-3 opacity-60" />
               </Button>
             </>
@@ -381,7 +368,7 @@ const FileBadgeContent = ({
     case "compressing":
       return (
         <>
-          {isRetry ? "Retrying" : "Compressing"}{" "}
+          {isRetry ? "重试中" : "压缩中"}{" "}
           {progressValue && (
             <span className="text-xs opacity-80">
               {progressValue.toFixed(0)}%
@@ -390,7 +377,9 @@ const FileBadgeContent = ({
         </>
       );
     case "ready":
-      return "Ready";
+      return "就绪";
+    case "waiting":
+      return "排队中";
     default:
       // Done and error is handled in parent
       // so we don't end up here:

@@ -11,7 +11,7 @@ export const TableStream = ({
   return (
     <Subtable>
       <ComparisonRow
-        property="Codec"
+        property="编码格式"
         originalValue={originalStream.codec_name}
         compressedValue={compressedStream.codec_name}
         unit=""
@@ -23,109 +23,109 @@ export const TableStream = ({
         unit=""
       />
       <ComparisonRow
-        property="Width"
+        property="宽度"
         originalValue={originalStream.width}
         compressedValue={compressedStream.width}
         unit="px"
       />
       <ComparisonRow
-        property="Height"
+        property="高度"
         originalValue={originalStream.height}
         compressedValue={compressedStream.height}
         unit="px"
       />
       <ComparisonRow
-        property="Pixel Format"
+        property="像素格式"
         originalValue={originalStream.pix_fmt}
         compressedValue={compressedStream.pix_fmt}
         unit=""
       />
       <ComparisonRow
-        property="Bit Rate"
+        property="码率"
         originalValue={originalStream.bit_rate}
         compressedValue={compressedStream.bit_rate}
         unit="bps"
       />
       <ComparisonRow
-        property="Frame Rate"
+        property="帧率"
         originalValue={originalStream.r_frame_rate}
         compressedValue={compressedStream.r_frame_rate}
         unit="fps"
       />
       <ComparisonRow
-        property="Color Range"
+        property="色彩范围"
         originalValue={originalStream.color_range}
         compressedValue={compressedStream.color_range}
         unit=""
       />
       <ComparisonRow
-        property="Color Space"
+        property="色彩空间"
         originalValue={originalStream.color_space}
         compressedValue={compressedStream.color_space}
         unit=""
       />
       <ComparisonRow
-        property="Color Transfer"
+        property="色彩传递"
         originalValue={originalStream.color_transfer}
         compressedValue={compressedStream.color_transfer}
         unit=""
       />
       <ComparisonRow
-        property="Color Primaries"
+        property="色彩原色"
         originalValue={originalStream.color_primaries}
         compressedValue={compressedStream.color_primaries}
         unit=""
       />
       <ComparisonRow
-        property="Chroma Location"
+        property="色度位置"
         originalValue={originalStream.chroma_location}
         compressedValue={compressedStream.chroma_location}
         unit=""
       />
       <ComparisonRow
-        property="Field Order"
+        property="场序"
         originalValue={originalStream.field_order}
         compressedValue={compressedStream.field_order}
         unit=""
       />
       <ComparisonRow
-        property="References"
+        property="参考帧数"
         originalValue={originalStream.refs}
         compressedValue={compressedStream.refs}
         unit=""
       />
       <ComparisonRow
-        property="Sample Format"
+        property="采样格式"
         originalValue={originalStream.sample_fmt}
         compressedValue={compressedStream.sample_fmt}
         unit=""
       />
       <ComparisonRow
-        property="Sample Rate"
+        property="采样率"
         originalValue={originalStream.sample_rate}
         compressedValue={compressedStream.sample_rate}
         unit="Hz"
       />
       <ComparisonRow
-        property="Channels"
+        property="声道数"
         originalValue={originalStream.channels}
         compressedValue={compressedStream.channels}
         unit=""
       />
       <ComparisonRow
-        property="Channel Layout"
+        property="声道布局"
         originalValue={originalStream.channel_layout}
         compressedValue={compressedStream.channel_layout}
         unit=""
       />
       <ComparisonRow
-        property="Bits Per Sample"
+        property="采样位深"
         originalValue={originalStream.bits_per_sample}
         compressedValue={compressedStream.bits_per_sample}
         unit="bits"
       />
       <ComparisonRow
-        property="Initial Padding"
+        property="初始填充"
         originalValue={originalStream.initial_padding}
         compressedValue={compressedStream.initial_padding}
         unit=""
@@ -138,74 +138,74 @@ export const TableStream = ({
       />
 
       <ComparisonRow
-        property="Average Frame Rate"
+        property="平均帧率"
         originalValue={originalStream.avg_frame_rate}
         compressedValue={compressedStream.avg_frame_rate}
         unit="fps"
       />
       <ComparisonRow
-        property="Time Base"
+        property="时间基"
         originalValue={originalStream.time_base}
         compressedValue={compressedStream.time_base}
         unit=""
       />
       <ComparisonRow
-        property="Start PTS"
+        property="起始 PTS"
         originalValue={originalStream.start_pts}
         compressedValue={compressedStream.start_pts}
         unit=""
       />
       <ComparisonRow
-        property="Start Time"
+        property="起始时间"
         originalValue={originalStream.start_time}
         compressedValue={compressedStream.start_time}
         unit="s"
       />
       {/* <ComparisonRow
-        property="Duration (TS)"
+        property="时长 (TS)"
         originalValue={originalStream.duration_ts}
         compressedValue={compressedStream.duration_ts}
         unit=""
       /> */}
       <ComparisonRow
-        property="Duration"
+        property="时长"
         originalValue={originalStream.duration}
         compressedValue={compressedStream.duration}
         unit="s"
       />
       <ComparisonRow
-        property="Max Bit Rate"
+        property="最大码率"
         originalValue={originalStream.max_bit_rate}
         compressedValue={compressedStream.max_bit_rate}
         unit="bps"
       />
       <ComparisonRow
-        property="Bits Per Raw Sample"
+        property="原始采样位深"
         originalValue={originalStream.bits_per_raw_sample}
         compressedValue={compressedStream.bits_per_raw_sample}
         unit="bits"
       />
       <ComparisonRow
-        property="Number of Frames"
+        property="帧数"
         originalValue={originalStream.nb_frames}
         compressedValue={compressedStream.nb_frames}
         unit=""
       />
       <ComparisonRow
-        property="Number of Read Frames"
+        property="已读取帧数"
         originalValue={originalStream.nb_read_frames}
         compressedValue={compressedStream.nb_read_frames}
         unit=""
       />
       <ComparisonRow
-        property="Number of Read Packets"
+        property="已读取数据包数"
         originalValue={originalStream.nb_read_packets}
         compressedValue={compressedStream.nb_read_packets}
         unit=""
       />
 
       <ComparisonRow
-        property="Dispositions"
+        property="流标记"
         originalValue={Object.entries(originalStream.disposition || {})
           .filter(([_, value]) => value === 1 || value === 0)
           .map(([key, value]) => `${key}: ${value}`)
@@ -218,7 +218,7 @@ export const TableStream = ({
       />
 
       <ComparisonRow
-        property="Tags"
+        property="标签"
         originalValue={Object.entries(originalStream.tags || {})
           .map(([key, value]) => `${key}: ${value}`)
           .join(", ")}

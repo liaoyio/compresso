@@ -40,11 +40,12 @@ import {
   GlobeIcon,
   InfoIcon,
   MicIcon,
+  SunMoonIcon,
   TargetIcon,
   Undo2Icon,
   ZapIcon,
 } from "lucide-react";
-import { useTrackHasUsed } from "@/lib/use-track-appearance";
+import { useTheme } from "../theme-provider";
 import {
   SmallSlider,
   SmallSliderLabel,
@@ -60,11 +61,11 @@ export const SettingsSidebar = () => {
     <>
       <div className="bg-foreground/3">
         <TitleBarRoot>
-          <TitleBarButton title="Reset to defaults" onClick={resetConfig}>
+          <TitleBarButton title="恢复默认" onClick={resetConfig}>
             <Undo2Icon className="w-4 h-4" />
           </TitleBarButton>
           <a href="https://docs.compresso.app/settings" target="_blank">
-            <TitleBarButton title="Settings Guide">
+            <TitleBarButton title="设置说明">
               <InfoIcon className="w-4 h-4" />
             </TitleBarButton>
           </a>
@@ -72,6 +73,9 @@ export const SettingsSidebar = () => {
       </div>
       <ScrollArea className="flex  h-full flex-col text-sm border-r bg-foreground/3 px-2">
         <SettingsRoot>
+          <AppearanceSetting />
+          <SettingsSeparator />
+
           <RateControlSettings />
           <SpeedSetting />
 
@@ -154,7 +158,7 @@ const TargetSizeSetting = () => {
           <div className="flex flex-col gap-2">
             <div className="flex items-center gap-2 relative">
               <div className="absolute left-3 opacity-50 text-xs pointer-events-none">
-                Max
+                上限
               </div>
               <Input
                 type="number"
@@ -166,13 +170,13 @@ const TargetSizeSetting = () => {
               <span>MB</span>
             </div>
             <div className="text-xs opacity-50">
-              Uses bitrate to aim for this file size.{" "}
+              通过码率让文件接近该大小。{" "}
               <a
                 href="https://docs.compresso.app/guide/set-max-file-size"
                 target="_blank"
                 className="underline"
               >
-                More
+                了解更多
               </a>
             </div>
           </div>
@@ -203,6 +207,49 @@ const TargetSizeSetting = () => {
 //   );
 // };
 
+const AppearanceSetting = () => {
+  const { theme, setTheme } = useTheme();
+
+  const handleChange = (nextTheme: string) => {
+    if (!nextTheme) return;
+    setTheme(nextTheme as "dark" | "light" | "system");
+  };
+
+  const itemClass = (selected: boolean, extra = "") =>
+    cn(
+      "bg-control m-0 flex justify-center h-[2em] items-center data-[state=on]:bg-selection data-[state=off]:hover:bg-foreground/5 data-[state=on]:hover:bg-selection data-[state=on]:text-white data-[state=on]:font-bold data-[state=off]:text-foreground/80 p-0 w-full",
+      extra,
+      selected ? "bg-selection" : ""
+    );
+
+  return (
+    <div>
+      <div className="flex items-center space-x-2 justify-between">
+        <div className="flex items-center gap-2">
+          <SunMoonIcon className="w-3 h-3 opacity-30" />
+          <div>外观</div>
+        </div>
+      </div>
+      <ToggleGroup
+        type="single"
+        value={theme}
+        className="w-full grid grid-cols-3 mt-2 gap-0"
+        onValueChange={handleChange}
+      >
+        <ToggleGroupItem value="light" className={itemClass(theme === "light", "rounded-l-md")}>
+          浅色
+        </ToggleGroupItem>
+        <ToggleGroupItem value="dark" className={itemClass(theme === "dark")}>
+          深色
+        </ToggleGroupItem>
+        <ToggleGroupItem value="system" className={itemClass(theme === "system", "rounded-r-md")}>
+          跟随系统
+        </ToggleGroupItem>
+      </ToggleGroup>
+    </div>
+  );
+};
+
 const SettingsSeparator = () => {
   return <Separator className="bg-foreground/5 -mx-2 w-[calc(100%+1rem)]" />;
 };
@@ -210,14 +257,12 @@ const SettingsSeparator = () => {
 // TODO: Find a good way ROT-872
 // const OverwriteSetting = () => {
 //   const { optimizeConfig, setOptimizeConfig } = useOptimizeConfig();
-//   const trackHasUsed = useTrackHasUsed();
 
 //   const handleChange = (overwrite: boolean) => {
 //     setOptimizeConfig({
 //       ...optimizeConfig,
 //       overwrite,
 //     });
-//     trackHasUsed("overwrite_setting");
 //   };
 //   return (
 //     <div className="flex items-center space-x-2">
@@ -264,13 +309,11 @@ export const PreserveMetadataSetting = () => {
 
 export const SpeedSetting = () => {
   const { optimizeConfig, setOptimizeConfig } = useOptimizeConfig();
-  const trackHasUsed = useTrackHasUsed();
   const handleChange = (nextSpeed: number[]) => {
     setOptimizeConfig({
       ...optimizeConfig,
       speed: speedFromNumber(nextSpeed[0]),
     });
-    trackHasUsed("speed_setting");
   };
 
   return (
@@ -280,8 +323,8 @@ export const SpeedSetting = () => {
       <div className="flex justify-evenly items-end gap-3 ">
         <SmallSliderRoot>
           <SmallSliderLabels>
-            <SmallSliderLabel>Faster</SmallSliderLabel>
-            <SmallSliderLabel>Better</SmallSliderLabel>
+            <SmallSliderLabel>更快</SmallSliderLabel>
+            <SmallSliderLabel>更好</SmallSliderLabel>
           </SmallSliderLabels>
 
           <SmallSlider
@@ -294,7 +337,7 @@ export const SpeedSetting = () => {
               ),
             ]}
             onValueChange={handleChange}
-            aria-label="Speed"
+            aria-label="编码速度"
           />
         </SmallSliderRoot>
         <BoostSetting />
@@ -305,14 +348,12 @@ export const SpeedSetting = () => {
 
 export const BoostSetting = () => {
   const { optimizeConfig, setOptimizeConfig } = useOptimizeConfig();
-  const trackHasUsed = useTrackHasUsed();
 
   const handleChange = (boost: boolean) => {
     setOptimizeConfig({
       ...optimizeConfig,
       threadCount: boost ? undefined : 1,
     });
-    trackHasUsed("boost_setting");
   };
 
   const isOn = optimizeConfig.threadCount === undefined;
@@ -345,14 +386,14 @@ export const BoostSetting = () => {
                   isOn && "fill-white text-white "
                 )}
               />
-              <span className="">Boost</span>
+              <span className="">加速</span>
             </div>
           </Toggle>
         </TooltipTrigger>
         <TooltipContent asChild>
           <div className="text-xs max-w-[200px]">
-            Use more CPU cores to compress faster. Other apps may be less
-            responsive while boosting.
+            使用更多 CPU 核心来加快压缩速度。
+            压缩期间其他应用可能会变卡。
           </div>
         </TooltipContent>
       </Tooltip>
@@ -361,7 +402,6 @@ export const BoostSetting = () => {
 };
 
 export const RemoveAudioSetting = () => {
-  const trackHasUsed = useTrackHasUsed();
   const { optimizeConfig, setOptimizeConfig } = useOptimizeConfig();
 
   const handleChange = (keepAudio: boolean) => {
@@ -369,7 +409,6 @@ export const RemoveAudioSetting = () => {
       ...optimizeConfig,
       removeAudio: !keepAudio,
     });
-    trackHasUsed("remove_audio_setting");
   };
   return (
     <SettingWrapper>
@@ -392,14 +431,12 @@ export const RemoveAudioSetting = () => {
 
 export const WebStreamableSetting = () => {
   const { optimizeConfig, setOptimizeConfig } = useOptimizeConfig();
-  const trackHasUsed = useTrackHasUsed();
 
   const handleChange = (webStreamable: boolean) => {
     setOptimizeConfig({
       ...optimizeConfig,
       webStreamable,
     });
-    trackHasUsed("web_streamable_setting");
   };
 
   return (
@@ -449,7 +486,6 @@ const RateControlModeSetting = ({
   disabled?: boolean;
 }) => {
   const { optimizeConfig, setOptimizeConfig } = useOptimizeConfig();
-  const trackHasUsed = useTrackHasUsed();
   const mode = disabled
     ? "bitrate"
     : optimizeConfig.rateControlMode ?? defaultConfig.rateControlMode ?? "crf";
@@ -461,13 +497,12 @@ const RateControlModeSetting = ({
       ...optimizeConfig,
       rateControlMode: nextMode as RateControlMode,
     });
-    trackHasUsed("rate_control_mode_setting");
   };
 
   return (
     <div>
       <div className="flex items-center space-x-2 justify-between">
-        <div>Mode</div>
+        <div>模式</div>
       </div>
 
       <ToggleGroup
@@ -487,7 +522,7 @@ const RateControlModeSetting = ({
             mode === "crf" ? "bg-selection" : ""
           )}
         >
-          Quality
+          画质
         </ToggleGroupItem>
         <ToggleGroupItem
           value="bitrate"
@@ -496,11 +531,11 @@ const RateControlModeSetting = ({
             mode === "bitrate" ? "bg-selection" : ""
           )}
         >
-          Bitrate
+          码率
         </ToggleGroupItem>
       </ToggleGroup>
       {disabled && (
-        <div className="text-xs opacity-50 mt-2">Auto when limit file size</div>
+        <div className="text-xs opacity-50 mt-2">限制文件大小时自动</div>
       )}
     </div>
   );
@@ -510,8 +545,8 @@ const AutoTargetSizeQualitySetting = () => {
   return (
     <Setting>
       <div className="flex justify-between items-center opacity-50">
-        <div>Quality</div>
-        <div className="text-xs">Auto when limit file size</div>
+        <div>画质</div>
+        <div className="text-xs">限制文件大小时自动</div>
       </div>
     </Setting>
   );
@@ -519,7 +554,6 @@ const AutoTargetSizeQualitySetting = () => {
 
 const BitrateSetting = () => {
   const { optimizeConfig, setOptimizeConfig } = useOptimizeConfig();
-  const trackHasUsed = useTrackHasUsed();
   const bitrateKbps =
     optimizeConfig.videoBitrateKbps ?? defaultVideoBitrateKbps;
 
@@ -528,13 +562,12 @@ const BitrateSetting = () => {
       ...optimizeConfig,
       videoBitrateKbps: nextBitrate[0],
     });
-    trackHasUsed("bitrate_setting");
   };
 
   return (
     <Setting>
       <div className="flex justify-between items-center">
-        <div>Video bitrate</div>
+        <div>视频码率</div>
         <div className="text-xs opacity-50 font-mono">
           {(bitrateKbps / 1000).toFixed(2)} Mbps
         </div>
@@ -542,8 +575,8 @@ const BitrateSetting = () => {
 
       <SmallSliderRoot>
         <SmallSliderLabels>
-          <SmallSliderLabel>Smaller</SmallSliderLabel>
-          <SmallSliderLabel>Sharper</SmallSliderLabel>
+          <SmallSliderLabel>更小</SmallSliderLabel>
+          <SmallSliderLabel>更清晰</SmallSliderLabel>
         </SmallSliderLabels>
 
         <SmallSlider
@@ -552,7 +585,7 @@ const BitrateSetting = () => {
           step={250}
           value={[bitrateKbps]}
           onValueChange={handleChange}
-          aria-label="Video bitrate"
+          aria-label="视频码率"
         />
       </SmallSliderRoot>
     </Setting>
@@ -561,15 +594,14 @@ const BitrateSetting = () => {
 
 export const CRFSetting = () => {
   const { optimizeConfig, setOptimizeConfig } = useOptimizeConfig();
-  const trackHasUsed = useTrackHasUsed();
 
   const options = [
-    { value: 0.1, label: "Smallest File" },
-    { value: 0.3, label: "Good enough" },
-    { value: defaultCRFFraction, label: "Recommended" },
-    { value: 0.5, label: "Almost unnoticeable" },
-    { value: 0.6, label: "High quality, big file" },
-    { value: 0.9, label: "Almost lossless" },
+    { value: 0.1, label: "体积最小" },
+    { value: 0.3, label: "够用" },
+    { value: defaultCRFFraction, label: "推荐" },
+    { value: 0.5, label: "几乎看不出损失" },
+    { value: 0.6, label: "高质量、体积大" },
+    { value: 0.9, label: "接近无损" },
   ];
 
   const handleChange = (selection: string) => {
@@ -581,14 +613,13 @@ export const CRFSetting = () => {
         ...optimizeConfig,
         crfFraction: selectedOption.value,
       });
-      trackHasUsed("crf_setting");
     }
   };
 
   return (
     <div>
       <div className="flex items-center space-x-2 justify-between">
-        <div>Quality</div>
+        <div>画质</div>
       </div>
 
       <div className="text-xs opacity-50">
@@ -649,14 +680,12 @@ export const CRFSetting = () => {
 
 const FileFormatSettings = () => {
   const { optimizeConfig, setOptimizeConfig } = useOptimizeConfig();
-  const trackHasUsed = useTrackHasUsed();
 
   const handleChange = (format: string) => {
     setOptimizeConfig({
       ...optimizeConfig,
       formats: [format],
     });
-    trackHasUsed("file_format_setting");
   };
 
   return (
@@ -666,11 +695,11 @@ const FileFormatSettings = () => {
       </SettingIcon>
       <Select value={optimizeConfig.formats[0]} onValueChange={handleChange}>
         <SelectTrigger className="w-full">
-          <SelectValue placeholder="Select file type" />
+          <SelectValue placeholder="选择文件格式" />
         </SelectTrigger>
         <SelectContent>
-          <SelectItem value="mp4">MP4 format</SelectItem>
-          <SelectItem value="webm">WebM format</SelectItem>
+          <SelectItem value="mp4">MP4 格式</SelectItem>
+          <SelectItem value="webm">WebM 格式</SelectItem>
         </SelectContent>
       </Select>
     </SettingWrapper>

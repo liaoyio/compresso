@@ -1,129 +1,129 @@
-## Release Notes
+## 更新日志
 
 ## 0.1.90
 
-What's new:
+新功能：
 
-- You can now use a custom speed
-- You can now use a custom FPS
-- You can now use a custom scale
+- 支持自定义视频速度
+- 支持自定义帧率
+- 支持自定义缩放比例
 
 ## 0.1.81
 
-What's new:
+新功能：
 
-- Added support for more video formats: .mp4, .avi, .mkv, .mov, .flv, .wmv, .mpg, .mpeg, .ts, .m2ts, .webm, .ogg, .ogv, .3gp, .asf, .m4v, .mxf, .vob, .gif
+- 支持更多视频格式：.mp4、.avi、.mkv、.mov、.flv、.wmv、.mpg、.mpeg、.ts、.m2ts、.webm、.ogg、.ogv、.3gp、.asf、.m4v、.mxf、.vob、.gif
 
 ## 0.1.78
 
-What's new:
+新功能：
 
-- You can now set a maximum file size for your compressed videos. This is great for Discord, email services, and other places that have size limits.
+- 可以为压缩后的视频设置文件大小上限。非常适合 Discord、邮件附件等有大小限制的场景。
 
 ## 0.1.77
 
-What's new:
+新功能：
 
-- You can now trim videos. Click the file in the list before you start compression to trim the video.
+- 支持剪辑视频。开始压缩前，在列表中点击文件即可设定剪辑区间。
 
-What's changed:
+功能调整：
 
-- The "Start compression" button in the file list has changed from a Play icon to a "GO" button. It does the same thing, but less confusing.
+- 文件列表中的「开始压缩」按钮从播放图标改为「压缩」按钮。功能不变，但更容易理解。
 
-What's fixed:
+问题修复：
 
-- The playhead in the comparison slider now moves when you play the video.
+- 修复了播放对比视频时，进度条不走动的问题。
 
 ## 0.1.76
 
-What's new:
+新功能：
 
-- We have a new help site at https://docs.compresso.app
-- You can now click the `i` icon in the Settings sidebar to read about each setting.
-- You can now click "Help & Docs" in the Account menu to get to the help site.
+- 全新的帮助站点：https://docs.compresso.app
+- 可以点击设置侧栏的 `i` 图标查看每项设置的说明。
+- 可以在账户菜单中点击「帮助与文档」前往帮助站点。
 
 ## 0.1.74
 
-What's improved:
+改进：
 
-- You will now see an error if Compresso can't read your video
+- 当 Compresso 无法读取视频时，现在会显示错误提示。
 
-What's fixed:
+问题修复：
 
-- The speed dropdown would sometimes not show the selected value
+- 修复了速度下拉框有时不显示当前选中值的问题。
 
-What's new:
+新功能：
 
-- You can now downscale to a specific width or height in pixels.
+- 支持按像素精确设置缩放后的宽度或高度。
 
 ## 0.1.73
 
-What's new:
+新功能：
 
-- Batches of videos now compress one by one for better CPU efficiency.
-- You can now see the estimated compressed size while compressing.
-- Compress, show in folder, and remove from list buttons are now in the file list.
-- You can now keep the original video metadata
-- The settings sidebar now appears to the right of the file list.
+- 批量视频现在会逐个压缩，CPU 利用率更高。
+- 压缩过程中现在会显示预估的压缩后大小。
+- 「压缩」「在文件夹中显示」「从列表中移除」按钮已移入文件列表。
+- 支持保留视频的原始元数据。
+- 设置侧栏现在显示在文件列表右侧。
 
-What's changed:
+功能调整：
 
-- Videos no longer compress automatically when you add them.
+- 添加视频后不再自动开始压缩。
 
-What's improved:
+改进：
 
-- You can now copy the email address for support to your clipboard.
+- 支持将客服邮箱复制到剪贴板。
 
 ### 0.1.72
 
-What's improved
+改进：
 
-- The file list now has more space for big file sizes.
-- More polish on the UI.
+- 文件列表为大文件的大小显示留出了更多空间。
+- 界面细节打磨。
 
-What's fixed
+问题修复
 
-- Fixed a bug where the original file size would be shown as NaN in some cases on Windows 10 in non-English locales.
+- 修复了 Windows 10 上非英文区域设置下，原始文件大小偶尔显示为 NaN 的问题。
 
 ### 0.1.71
 
-What's fixed:
+问题修复：
 
-- The Boost button looked weird in light mode. It now looks less weird.
-- The Getting Started video did not play for some users. It now plays for everyone as long as they have an internet connection.
+- 修复了浅色模式下「加速」按钮显示异常的问题。
+- 修复了部分用户无法播放新手引导视频的问题。现在只要联网即可正常播放。
 
 ### 0.1.70
 
-What's changed:
+功能调整：
 
-- The Account button packed its stuff and moved to the top right corner.
+- 账户按钮移到了右上角。
 
-What's new:
+新功能：
 
-- You can now disable Boost to decrease CPU usage. This is great if you want to use other apps while compressing.
-- You can now reset settings to the default settings. Use the button in the top of the settings sidebar.
+- 支持关闭「加速」以降低 CPU 占用。适合在压缩的同时使用其他应用。
+- 支持将设置恢复为默认值。点击设置侧栏顶部的按钮即可。
 
-What's improved:
+改进：
 
-- The settings sidebar is now more compact
-- The scroll bar in settings no longer covers the settings
+- 设置侧栏更加紧凑。
+- 设置中的滚动条不再遮挡设置项。
 
 ### 0.1.69
 
-What's new:
+新功能：
 
-- You can now see what's new in the app by clicking the Account icon in the lower left corner.
-- You can now reset the quality setting
+- 点击左下角的账户图标即可查看应用的更新内容。
+- 支持重置画质设置。
 
-What's improved:
+改进：
 
-- The file list now shows video sizes as **kB**, **MB**, and **GB** instead of just **MB**.
-- The standard compression setting is now slightly higher quality and larger file, matching Rotato Compress on the web.
-- Compression with standard settings is now slightly faster and uses slightly less CPU/battery. We're working on GPU acceleration for the future.
-- We redesigned the settings sidebar to make it easier to find everything you need.
+- 文件列表现在以 **kB**、**MB**、**GB** 显示视频大小，不再只显示 **MB**。
+- 标准压缩设置的画质略有提升、体积略有增大，与网页版 Rotato Compress 保持一致。
+- 标准设置下的压缩速度略有提升，CPU 和电量占用略降。GPU 加速正在开发中。
+- 重新设计了设置侧栏，各项设置更容易找到。
 
-What's fixed:
+问题修复：
 
-- Fixed a bug where a video file with multiple extensions (e.g. `video.final.done.mp4`) would cause the output file to have the wrong name.
-- Fixed a bug where a gigabyte would be shown as **1 B** rather than **1 GB**.
-- Fixed a bug where the frame rate would be set to 25 when it should have been whatever the original frame rate was.
+- 修复了含多个扩展名的视频文件（如 `video.final.done.mp4`）导致输出文件命名错误的问题。
+- 修复了以 GB 计的大小被显示为 **1 B** 而非 **1 GB** 的问题。
+- 修复了帧率被错误设为 25 而未保持原帧率的问题。

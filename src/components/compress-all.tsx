@@ -15,7 +15,7 @@ export const CompressAll = () => {
         size="lg"
         onClick={compressAll}
       >
-        Compress All
+        全部压缩
       </Button>
     </div>
   );

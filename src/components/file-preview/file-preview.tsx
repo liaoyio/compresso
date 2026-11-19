@@ -21,7 +21,6 @@ import {
 import { calculatePctSmaller } from "../file-list/file-item";
 import { cn } from "@/lib/utils";
 import { showInFolder } from "@/lib/rust-function-calls";
-import { usePostHog } from "posthog-js/react";
 import { PreFlight } from "./pre-flight/pre-flight";
 
 export const FilePreview = () => {
@@ -43,8 +42,6 @@ export const FilePreview = () => {
     return convertFileSrc(finalPath);
   }, [finalPath]);
 
-  const posthog = usePostHog();
-
   const { mediaInfo: compressedInfo } = useMediaInfo(finalPath);
   const { mediaInfo: originalInfo } = useMediaInfo(file?.path);
 
@@ -64,10 +61,7 @@ export const FilePreview = () => {
 
   const handleShowInFolder = async () => {
     if (!finalPath) return;
-    await showInFolder(finalPath, posthog);
-    posthog.capture("show-file-in-folder", {
-      location: "preview-action-button",
-    });
+    await showInFolder(finalPath);
   };
 
   // if the file was trimmed, we don't want to play the source video
@@ -95,7 +89,7 @@ export const FilePreview = () => {
 
       <PreviewDataContainer>
         <PreviewDataItem className=" w-1/2">
-          <PreviewTopTitle>Original</PreviewTopTitle>
+          <PreviewTopTitle>原视频</PreviewTopTitle>
           <PreviewBytes bytes={sourceSize} />
 
           {originalInfo && (
@@ -104,7 +98,7 @@ export const FilePreview = () => {
         </PreviewDataItem>
 
         <PreviewDataItem className="w-1/2">
-          <PreviewTopTitle>Compressed </PreviewTopTitle>
+          <PreviewTopTitle>压缩后</PreviewTopTitle>
           <div className="flex items-center flex-wrap gap-2 ">
             <PreviewBytes bytes={outputSize ?? 0} />
             <PreviewPctSmaller pctSmaller={pctSmaller} isDone={isDone} />
@@ -129,11 +123,11 @@ export const FilePreview = () => {
       <div className="flex space-x-3 justify-start px-4">
         <ActionButton onClick={() => setShowTable(!showTable)}>
           <InfoIcon className="w-4 h-4" />
-          <div className="text-sm">{showTable ? "Hide" : "Show"} Details</div>
+          <div className="text-sm">{showTable ? "隐藏" : "显示"}详情</div>
         </ActionButton>
         <ActionButton onClick={handleShowInFolder}>
           <FolderIcon className="w-4 h-4" />
-          <div className="text-sm">Show in Folder</div>
+          <div className="text-sm">在文件夹中显示</div>
         </ActionButton>
       </div>
 

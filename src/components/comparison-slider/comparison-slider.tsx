@@ -4,7 +4,6 @@ import { ReactCompareSlider } from "react-compare-slider";
 import { useEffect, useRef, useState } from "react";
 import { PauseIcon, PlayIcon } from "lucide-react";
 import * as Slider from "@radix-ui/react-slider";
-import { WatermarkSwitch } from "./watermark-switch";
 import { useComparisonContextMenu } from "./create-comparison-context-menu";
 
 /*
@@ -186,8 +185,6 @@ export const ComparisonSlider = ({
         )}
       </div>
 
-      <WatermarkSwitch />
-
       <div className="w-full flex pt-1 items-center gap-4">
         <button onClick={togglePlaying}>
           {isPlaying ? (
@@ -211,7 +208,7 @@ export const ComparisonSlider = ({
           <Slider.Thumb
             className="block w-1 h-4 rounded-full bg-white
              dark:bg-gray-400 shadow-[0_0_0_1px_rgba(0,0,0,0.2)]"
-            aria-label="Timeline"
+            aria-label="时间轴"
           />
         </Slider.Root>
       </div>

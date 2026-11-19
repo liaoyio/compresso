@@ -100,7 +100,7 @@ export const PreviewProgress = ({ speed }: { speed: number }) => {
   return (
     <DataItems>
       <DataItem>
-        <DataData>{speed}x speed</DataData>
+        <DataData>{speed} 倍速</DataData>
       </DataItem>
     </DataItems>
   );
@@ -127,11 +127,11 @@ export const PreviewDataSummary = ({ summary }: { summary: FFSummary }) => {
       </DataItem>
       <DataItem>
         {audioCodec && <DataData>{audioCodec}</DataData>}
-        {!audioCodec && <DataData>No audio</DataData>}
+        {!audioCodec && <DataData>无音频</DataData>}
       </DataItem>
       <DataItem>
         {codec && <DataData>{codec}</DataData>}
-        {!codec && <DataData>No video</DataData>}
+        {!codec && <DataData>无视频</DataData>}
       </DataItem>
       <DataItem>
         <DataData>{extension}</DataData>

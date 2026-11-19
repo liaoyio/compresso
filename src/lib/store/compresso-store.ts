@@ -20,11 +20,7 @@ type State = {
   settingsIsOpen: boolean;
   reCompressFileIds: string[];
   isPinned: boolean;
-  onboardingCompleted: boolean;
-  hasPaid: boolean;
   hasDismissedGettingStarted: boolean;
-  didLoginDuringOnboarding: boolean;
-  pendingActionsAfterLogin: (() => void)[];
   lastVersion: string | null;
   seenWhatsNewVersion: string | null;
 
@@ -46,13 +42,8 @@ type Actions = {
   queueFileForRecompress: (fileId: string) => void;
   removeFileFromRecompressQueue: (fileId: string) => void;
   setIsPinned: (isPinned: boolean) => void;
-  setOnboardingCompleted: (onboardingCompleted: boolean) => void;
-  setHasPaid: (hasPaid: boolean) => void;
   reset: () => void;
   setHasDismissedGettingStarted: (hasDismissedGettingStarted: boolean) => void;
-  setDidLoginDuringOnboarding: (didLoginDuringOnboarding: boolean) => void;
-  addPendingActionAfterLogin: (action: () => void) => void;
-  purgePendingActionsAfterLogin: () => void;
   setLastVersion: (version: string) => void;
   setSeenWhatsNewVersion: (version: string | null) => void;
   setFileStatus: (fileId: string, status: FileStatus) => void;
@@ -70,11 +61,7 @@ const initialState: State = {
   settingsIsOpen: false,
   reCompressFileIds: [],
   isPinned: false,
-  onboardingCompleted: false,
-  hasPaid: false,
   hasDismissedGettingStarted: false,
-  didLoginDuringOnboarding: false,
-  pendingActionsAfterLogin: [],
   lastVersion: null,
   seenWhatsNewVersion: null,
 };
@@ -133,20 +120,9 @@ const useCompressoStore = create<State & Actions>()(
           ),
         })),
       setIsPinned: (isPinned) => set({ isPinned }),
-      setOnboardingCompleted: (onboardingCompleted) =>
-        set({ onboardingCompleted }),
-      setHasPaid: (hasPaid) => set({ hasPaid }),
       reset: () => set(initialState),
       setHasDismissedGettingStarted: (dismissed) =>
         set({ hasDismissedGettingStarted: dismissed }),
-      setDidLoginDuringOnboarding: (didLoginDuringOnboarding) =>
-        set({ didLoginDuringOnboarding }),
-      addPendingActionAfterLogin: (action) =>
-        set((state) => ({
-          pendingActionsAfterLogin: [...state.pendingActionsAfterLogin, action],
-        })),
-      purgePendingActionsAfterLogin: () =>
-        set({ pendingActionsAfterLogin: [] }),
       setLastVersion: (version) => set({ lastVersion: version }),
       setSeenWhatsNewVersion: (version) =>
         set({ seenWhatsNewVersion: version }),
@@ -167,8 +143,6 @@ const useCompressoStore = create<State & Actions>()(
       storage: createJSONStorage(() => localStorage),
       partialize: (state) => ({
         customValues: state.customValues,
-        onboardingCompleted: state.onboardingCompleted,
-        hasPaid: state.hasPaid,
         hasDismissedGettingStarted: state.hasDismissedGettingStarted,
         lastVersion: state.lastVersion,
         seenWhatsNewVersion: state.seenWhatsNewVersion,

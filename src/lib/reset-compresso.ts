@@ -1,21 +1,13 @@
-// Reset auth, hasPaid, onboardingCompleted, zustand store, local storage, cookies, posthog
+// Reset zustand store, local storage, cookies
 
-import { useAuth } from "@/components/auth/use-auth";
 import useCompressoStore from "./store/compresso-store";
-import { usePostHog } from "posthog-js/react";
 
 export const resetCompresso = () => {
-  const { signOut } = useAuth();
   const { reset } = useCompressoStore((state) => ({ reset: state.reset }));
-  const posthog = usePostHog();
 
   const resetEverything = () => {
-    // log out
-    signOut();
     // reset the store
     reset();
-    // reset posthog
-    posthog.reset();
     // clear all cookies
     document.cookie.split(";").forEach(function (c) {
       document.cookie = c

@@ -1,49 +1,19 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { OptimizeConfig, OptimizeProgress } from "./types";
-import { OptimizeStats, optimizeVideo } from "./optimizer";
+import { optimizeVideo } from "./optimizer";
 import {
   CompressoFile,
   useCompressoFiles,
   // useCompressoFiles,
   // useReoptimize,
 } from "../store/use-compresso-files";
-import { usePostHog } from "posthog-js/react";
-import { createSupabaseClient } from "../auth/create-supabase-client";
 import useCompressoStore from "../store/compresso-store";
 import { optimizeConfigForTargetSize } from "./target-size-utils";
 
-const supabase = createSupabaseClient();
-
-const saveOptimizeStats = (stats: OptimizeStats) => {
-  // convert all keys to snake_case
-  const pg_stats = Object.entries(stats).reduce((acc, [key, value]) => {
-    const snakeKey = key.replace(
-      /[A-Z]/g,
-      (letter) => `_${letter.toLowerCase()}`
-    );
-    acc[snakeKey] = value;
-    return acc;
-  }, {} as Record<string, any>);
-
-  supabase
-    .from("compressions")
-    .insert(pg_stats)
-    .then((result) => {
-      if (result.error) console.warn(result.error);
-    });
-};
-
-export const useOptimizer = ({
-  hasPaid,
-}: // loadingAccess,
-{
-  hasPaid: boolean;
-  loadingAccess: boolean;
-}) => {
+export const useOptimizer = () => {
   const [progress, setProgress] = useState<OptimizeProgress | null>(null);
   const [error, setError] = useState<string | null>(null);
   const abortController = useRef<AbortController | null>(null);
-  const posthog = usePostHog();
   const [isRetry, setIsRetry] = useState(false);
 
   const optimize = async (
@@ -64,15 +34,12 @@ export const useOptimizer = ({
         file,
         activeConfig,
         abortController.current.signal,
-        hasPaid,
         (p) => {
           const nextProgress = { ...p };
           setProgress(nextProgress);
         }
       );
 
-      posthog.capture("compression_done", stats);
-      saveOptimizeStats(stats);
       return stats;
     } catch (e) {
       console.error("useOptimizer error", e);
@@ -83,7 +50,7 @@ export const useOptimizer = ({
           const targetSizeMb = config.targetSizeBytes
             ? Math.round((config.targetSizeBytes / 1024 / 1024) * 10) / 10
             : "the requested";
-          throw new Error(`Couldn't fit under ${targetSizeMb} MB`);
+          throw new Error(`无法压到 ${targetSizeMb} MB 以内`);
         }
 
         // Clear progress and error state
@@ -108,7 +75,7 @@ export const useOptimizer = ({
       abortController.current.abort();
       setProgress(null);
 
-      setError(new Error("Canceled").message);
+      setError(new Error("已取消").message);
       abortController.current = null;
     }
   };
@@ -126,19 +93,12 @@ export const useOptimizer = ({
 export const useOptimizeImmediately = ({
   file,
   config,
-  hasPaid,
-  loadingAccess,
 }: {
   file: CompressoFile;
   config: OptimizeConfig;
-  hasPaid: boolean;
-  loadingAccess: boolean;
 }) => {
   // const { reCompressFileIds, removeFileFromRecompressQueue } = useReoptimize();
-  const { optimize, progress, error, abort, isRetry } = useOptimizer({
-    hasPaid,
-    loadingAccess,
-  });
+  const { optimize, progress, error, abort, isRetry } = useOptimizer();
 
   const { files } = useCompressoFiles();
   const [setFileStatus] = useCompressoStore((state) => [state.setFileStatus]);

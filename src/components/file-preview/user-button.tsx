@@ -1,5 +1,4 @@
 import { HelpCircleIcon, User2Icon } from "lucide-react";
-import { useAuth } from "../auth/use-auth";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -10,9 +9,6 @@ import {
 } from "../ui/dropdown-menu";
 import { isDev, resetCompresso } from "@/lib/reset-compresso";
 import { useGettingStarted } from "./empty-preview";
-import { useOnboarding } from "../onboarding/use-onboarding";
-import { useAccess } from "../auth/use-access";
-import { Badge } from "../ui/badge";
 import { Separator } from "../ui/separator";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "../ui/sheet";
 import { useState } from "react";
@@ -53,7 +49,7 @@ export const UserButton = () => {
       <Sheet open={showWhatsNew} onOpenChange={setShowWhatsNew}>
         <SheetContent>
           <SheetHeader>
-            <SheetTitle>What's new?</SheetTitle>
+            <SheetTitle>更新内容</SheetTitle>
           </SheetHeader>
           <WhatsNew />
         </SheetContent>
@@ -67,8 +63,6 @@ export const UserButtonContent = ({
 }: {
   setShowWhatsNew: (showWhatsNew: boolean) => void;
 }) => {
-  const { email, signOut } = useAuth();
-  const { hasPaid } = useAccess();
   const resetEverything = resetCompresso();
   const { setHasDismissedGettingStarted, hasDismissedGettingStarted } =
     useGettingStarted();
@@ -76,22 +70,19 @@ export const UserButtonContent = ({
   const { hasSeenWhatsNew } = useReleaseNotes();
   return (
     <>
-      <DropdownMenuLabel className="gap-2 flex">
-        {email ?? "Not logged in"}
-        <Badge>{hasPaid ? "PRO" : "FREE"}</Badge>
-      </DropdownMenuLabel>
+      <DropdownMenuLabel className="gap-2 flex">Compresso</DropdownMenuLabel>
       <DropdownMenuSeparator />
 
       <DropdownMenuItem
         className="flex items-center justify-between"
         onClick={() => setShowWhatsNew(true)}
       >
-        <div>What's new?</div>
+        <div>更新内容</div>
         {!hasSeenWhatsNew && <WhatsNewBadge />}
       </DropdownMenuItem>
 
       <DropdownMenuItem onClick={resetEverything}>
-        Reset Compresso
+        重置 Compresso
       </DropdownMenuItem>
 
       {/* Show the getting started video */}
@@ -100,21 +91,18 @@ export const UserButtonContent = ({
           setHasDismissedGettingStarted(!hasDismissedGettingStarted)
         }
       >
-        {hasDismissedGettingStarted ? "Show" : "Hide"} Getting Started
+        {hasDismissedGettingStarted ? "显示" : "隐藏"}新手引导
       </DropdownMenuItem>
 
       <DropdownMenuItem>
         <a href="https://docs.compresso.app" className="flex items-center" target="_blank">
           <HelpCircleIcon className="w-4 h-4 mr-2" />
-          Help & Docs
+          帮助与文档
         </a>
       </DropdownMenuItem>
 
       <NeedHelpButton />
 
-      {email && <DropdownMenuItem onClick={signOut}>Sign out</DropdownMenuItem>}
-
-      {/* reset onboarding for testing */}
       {isDev() && <DeveloperMenu />}
     </>
   );
@@ -135,13 +123,12 @@ const NeedHelpButton = () => {
       className="flex items-center"
     >
       
-      {isCopied ? "Copied!" : "compresso-help@rotato.app"}
+      {isCopied ? "已复制！" : "compresso-help@rotato.app"}
     </DropdownMenuItem>
   );
 };
 
 const DeveloperMenu = () => {
-  const { setOnboardingCompleted } = useOnboarding();
   const { setSeenWhatsNewVersion } = useCompressoStore((state) => ({
     setSeenWhatsNewVersion: state.setSeenWhatsNewVersion,
   }));
@@ -150,13 +137,10 @@ const DeveloperMenu = () => {
     <>
       <Separator />
       <DropdownMenuLabel className="text-xs text-muted-foreground">
-        Dev
+        开发者
       </DropdownMenuLabel>
       <DropdownMenuItem onClick={() => setSeenWhatsNewVersion(null)}>
-        Reset Whats New
-      </DropdownMenuItem>
-      <DropdownMenuItem onClick={() => setOnboardingCompleted(false)}>
-        Reset Onboarding
+        重置「更新内容」
       </DropdownMenuItem>
     </>
   );

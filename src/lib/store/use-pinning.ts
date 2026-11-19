@@ -5,7 +5,6 @@ import {
   PhysicalSize,
   LogicalSize,
 } from "@tauri-apps/api/window";
-import { usePostHog } from "posthog-js/react";
 
 const PinnedSize = new LogicalSize(270, 200);
 
@@ -21,12 +20,8 @@ export const usePinning = ({
     setIsPinned: state.setIsPinned,
   }));
   const [unpinnedSize, setUnpinnedSize] = useState<PhysicalSize | null>(null);
-  const postHog = usePostHog();
 
   const togglePin = () => {
-    postHog.capture("toggle-pin", {
-      isPinned: !isPinned,
-    });
     setIsPinned(!isPinned);
   };
 
@@ -39,14 +34,12 @@ export const usePinning = ({
         setUnpinnedSize(size);
         WindowHelper.pinWindow();
       });
-      postHog.register({ isPinned: true });
     } else {
       // Changed back to unpinned
       onUnpin?.();
       if (unpinnedSize) {
         WindowHelper.unpinWindow(unpinnedSize);
       }
-      postHog.register({ isPinned: false });
     }
   }, [isPinned]);
 
@@ -59,14 +52,15 @@ const WindowHelper = {
     await w.setAlwaysOnTop(true);
     await w.setSize(PinnedSize);
     await w.setResizable(false);
-    await w.setMaximizable(false);
+    // NOTE: setMaximizable removed — tao 0.30.2 panics on macOS when the window
+    // has no standard zoom button (decorations: false). setResizable(false)
+    // already disables zoom, so behavior is unchanged.
   },
   unpinWindow: async (restoreSize: PhysicalSize) => {
     const w = getCurrentWindow();
     await w.setAlwaysOnTop(false);
     await w.setSize(restoreSize);
     await w.setMaxSize(undefined);
-    await w.setMaximizable(true);
     await w.setResizable(true);
   },
 };

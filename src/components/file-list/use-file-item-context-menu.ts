@@ -1,7 +1,6 @@
 import { OptimizeProgress } from "@/lib/optimizer/types";
 import { showInFolder } from "@/lib/rust-function-calls";
 import { Menu, MenuItem, PredefinedMenuItem } from "@tauri-apps/api/menu";
-import { PostHog } from "posthog-js";
 
 export type FileItemContextMenuProps = {
   abort: () => void;
@@ -9,7 +8,6 @@ export type FileItemContextMenuProps = {
   progress?: OptimizeProgress | null;
   clearFile: () => void;
   recompress: () => void;
-  postHog: PostHog;
 };
 
 export const useFileItemContextMenu = (props: FileItemContextMenuProps) => {
@@ -31,21 +29,20 @@ export const fileItemContextMenu = async ({
   progress,
   clearFile,
   recompress,
-  postHog,
 }: FileItemContextMenuProps) => {
   const menuItems = await Promise.all([
     MenuItem.new({
-      text: "Show in Folder",
+      text: "在文件夹中显示",
       enabled: !!progress?.finalPath,
       action: async () => {
         if (progress?.finalPath) {
-          await showInFolder(progress.finalPath, postHog);
+          await showInFolder(progress.finalPath);
         }
       },
     }),
 
     MenuItem.new({
-      text: "Recompress with Current Settings",
+      text: "用当前设置重新压缩",
       enabled: !!progress?.finalPath,
       action: async () => {
         recompress();
@@ -53,7 +50,7 @@ export const fileItemContextMenu = async ({
     }),
 
     MenuItem.new({
-      text: "Cancel Compression",
+      text: "取消压缩",
       enabled: isRunning,
       action: async () => {
         abort();
@@ -62,7 +59,7 @@ export const fileItemContextMenu = async ({
 
     createSeparator(),
     MenuItem.new({
-      text: "Remove from List",
+      text: "从列表中移除",
       action: () => {
         if (isRunning) {
           abort();

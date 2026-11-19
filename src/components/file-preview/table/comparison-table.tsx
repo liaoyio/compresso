@@ -45,7 +45,7 @@ export const ComparisonTable = ({
     <div className="grid grid-cols-1 gap-10 mt-5">
       {originalFormat && compressedFormat && (
         <div>
-          <TableHeading>Format</TableHeading>
+          <TableHeading>格式</TableHeading>
           <TableFormats
             originalFormat={originalFormat}
             compressedFormat={compressedFormat}
@@ -59,7 +59,7 @@ export const ComparisonTable = ({
           originalVideoStreams.length > 0 &&
           compressedVideoStreams.length > 0 && (
             <div>
-              <TableHeading>Video Stream</TableHeading>
+              <TableHeading>视频流</TableHeading>
               <TableStream
                 originalStream={originalVideoStreams[0]}
                 compressedStream={compressedVideoStreams[0]}
@@ -72,7 +72,7 @@ export const ComparisonTable = ({
           originalAudioStreams.length > 0 &&
           compressedAudioStreams.length > 0 && (
             <div>
-              <TableHeading>Audio Stream</TableHeading>
+              <TableHeading>音频流</TableHeading>
               <TableStream
                 originalStream={originalAudioStreams[0]}
                 compressedStream={compressedAudioStreams[0]}

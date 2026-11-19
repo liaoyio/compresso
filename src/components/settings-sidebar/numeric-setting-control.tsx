@@ -5,7 +5,6 @@ import {
   NumericSetting,
   numericSettings,
 } from "@/lib/store/numeric-settings";
-import { useTrackHasUsed } from "@/lib/use-track-appearance";
 import {
   Select,
   SelectContent,
@@ -28,7 +27,6 @@ export const NumericSettingControl = ({
   const customMode = useCompressoStore((state) => state.customModes[setting] ?? false);
   const selectSetting = useCompressoStore((state) => state.selectNumericSetting);
   const setCustomValue = useCompressoStore((state) => state.setCustomValue);
-  const trackHasUsed = useTrackHasUsed();
   const selection = getNumericSettingSelection(setting, value, customMode);
 
   return (
@@ -39,7 +37,6 @@ export const NumericSettingControl = ({
           value={selection}
           onValueChange={(selection) => {
             selectSetting(setting, selection);
-            trackHasUsed(definition.trackingEvent);
           }}
         >
           <SelectTrigger className="w-full" aria-label={definition.label}>
@@ -52,7 +49,7 @@ export const NumericSettingControl = ({
                 {index === 0 && <Separator />}
               </Fragment>
             ))}
-            <SelectItem value="custom">Custom...</SelectItem>
+            <SelectItem value="custom">自定义…</SelectItem>
           </SelectContent>
         </Select>
       </div>

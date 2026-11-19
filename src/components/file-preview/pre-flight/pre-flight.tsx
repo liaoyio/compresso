@@ -104,7 +104,7 @@ export const PreFlight = ({
   return (
     <VideoPreviewContainer className="flex-col" key={assetUrl}>
       <div className="flex relative flex-col gap-2 p-5 pt-0 w-full items-center justify-center ">
-        <div className="text-3xl self-start font-semibold">Trim</div>
+        <div className="text-3xl self-start font-semibold">剪辑</div>
         <div className={cn("max-h-[calc(100vh-200px)]")}>
           <video
             ref={videoRef}
@@ -144,7 +144,7 @@ export const PreFlight = ({
             onClick={() => setFileStatus(file.id, "waiting")}
             className="flex items-center gap-1"
           >
-            <div>{wasTrimmed ? "Trim & Compress" : "Compress"}</div>
+            <div>{wasTrimmed ? "剪辑并压缩" : "压缩"}</div>
             <ChevronRight className="w-3 h-3 opacity-60" />
           </Button>
         </div>

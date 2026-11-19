@@ -5,7 +5,6 @@ import { createFFmpegCommand } from "./create-ffmpeg-command";
 import { parseFFmpegStatusLine } from "./parse-ffmpeg-status-line";
 import { CompressoFile } from "../store/use-compresso-files";
 import { invoke } from "@tauri-apps/api/core";
-import { createWatermarkPath } from "../create-watermark";
 import { sep } from "@tauri-apps/api/path";
 import { TargetEstimator } from "./target-size-utils";
 import { getMediaInfo } from "../probe/get-media-info";
@@ -18,7 +17,6 @@ export type OptimizeStats = {
   timesSmaller: number;
   bytesSaved: number;
   lastKnownSpeed: number;
-  watermarked: boolean;
 };
 
 //
@@ -26,7 +24,6 @@ export const optimizeVideo = async (
   compressoFile: CompressoFile,
   _config: OptimizeConfig,
   signal: AbortSignal,
-  hasPaid: boolean,
   onProgress: (progress: OptimizeProgress) => void
 ): Promise<OptimizeStats> => {
   // merge config with default config
@@ -55,18 +52,11 @@ export const optimizeVideo = async (
           .catch(() => undefined)
       : undefined;
 
-  // watermark
-  const watermarkPath = hasPaid
-    ? null
-    : await createWatermarkPath({
-        path: inputFilePath,
-      });
-
   const ffmpegArgs = createFFmpegCommand({
     inputFilePath: inputFilePath,
     outputPath,
     config,
-    watermarkPath,
+    watermarkPath: null,
     mediaDurationSeconds: totalDuration,
     sourceHasAudio,
   });
@@ -92,7 +82,7 @@ export const optimizeVideo = async (
       if (data.code !== 0) {
         return reject(
           new Error(
-            "Canceled"
+            "已取消"
             // `FFmpeg command failed for file ${inputFileName}, code ${data.code}, signal ${data.signal}`
           )
         );
@@ -127,7 +117,6 @@ export const optimizeVideo = async (
         timesSmaller: compressoFile.originalSize / finalSize,
         bytesSaved: compressoFile.originalSize - finalSize,
         lastKnownSpeed: lastProgress.speed,
-        watermarked: !!watermarkPath,
       };
 
       resolve(stats);

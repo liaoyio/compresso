@@ -10,11 +10,6 @@ import { PreviewTitleBar } from "./title-bar/preview-title-bar";
 import { FilePreview } from "./file-preview/file-preview";
 import { SettingsSidebar } from "./settings-sidebar/settings-sidebar";
 import { useSettings } from "@/lib/store/store-hooks";
-import { UpdateChecker } from "./update-checker";
-import { usePostHog } from "posthog-js/react";
-import { useAuth } from "./auth/use-auth";
-import { useAccess } from "./auth/use-access";
-import { SignInPage } from "./auth/sign-in-page";
 import { cn } from "@/lib/utils";
 import { usePinning } from "@/lib/store/use-pinning";
 import { CompressAll } from "./compress-all";
@@ -25,8 +20,6 @@ import { useOpenedFiles } from "@/lib/use-opened-files";
 export const MainApp = () => {
   const { addFile, addPaths, files } = useCompressoFiles();
   const { settingsIsOpen } = useSettings();
-  const posthog = usePostHog();
-  const { isLoadingOrLoggedIn } = useAuth();
 
   const handlePaths = async (paths: string[]) => {
     console.log("handlePaths", paths);
@@ -40,28 +33,15 @@ export const MainApp = () => {
     // TODO: Actually accept only videos
     const acceptedPaths = event.paths;
     handlePaths(acceptedPaths);
-    posthog.capture("added-files", {
-      count: acceptedPaths.length,
-      location: "drop",
-    });
   };
   useOpenedFiles((paths) => {
     addPaths(paths);
-    posthog.capture("added-files", {
-      count: paths.length,
-      location: "open-with",
-    });
   });
 
   const { isPinned } = usePinning({});
   useDropFiles({ onDrop });
   const hasFiles = files.length > 0;
-  const { hasPaid, loadingAccess } = useAccess();
   useCompressionQueue();
-
-  if (!isLoadingOrLoggedIn) {
-    return <SignInPage />;
-  }
 
   return (
     <div
@@ -83,15 +63,7 @@ export const MainApp = () => {
         className=" w-72 shrink-0 h-full  flex flex-col"
       >
         <ListTitleBar />
-        {hasFiles ? (
-          <FileList
-            files={files}
-            hasPaid={hasPaid}
-            loadingAccess={loadingAccess}
-          />
-        ) : (
-          <EmptyState />
-        )}
+        {hasFiles ? <FileList files={files} /> : <EmptyState />}
 
         <Spacer />
         <CompressAll />
@@ -103,7 +75,6 @@ export const MainApp = () => {
         <PreviewTitleBar />
         <FilePreview />
       </div>
-      <UpdateChecker />
     </div>
   );
 };
@@ -111,7 +82,7 @@ export const MainApp = () => {
 const EmptyState = () => {
   return (
     <div className="h-full flex items-center justify-center text-center p-10 opacity-50">
-      Drag files here or click + to select videos
+      将视频拖到这里，或点击 + 选择文件
     </div>
   );
 };

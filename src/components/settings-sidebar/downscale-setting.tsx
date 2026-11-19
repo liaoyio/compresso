@@ -1,6 +1,5 @@
 import { DownscaleType, OptimizeConfig } from "@/lib/optimizer/types";
 import { useOptimizeConfig } from "@/lib/store/store-hooks";
-import { useTrackHasUsed } from "@/lib/use-track-appearance";
 
 import { CgArrowsShrinkH } from "react-icons/cg";
 import { SettingWrapper, SettingIcon } from "../setting-root";
@@ -15,27 +14,25 @@ import { NumericSettingControl } from "./numeric-setting-control";
 
 export const DownscaleSetting = () => {
   const { optimizeConfig, setOptimizeConfig } = useOptimizeConfig();
-  const trackHasUsed = useTrackHasUsed();
 
   const handleDownscaleTypeChange = (downscaleType: DownscaleType) => {
     setOptimizeConfig({
       ...optimizeConfig,
       downscaleType,
     });
-    trackHasUsed("downscale_setting");
   };
 
   const downscaleType = optimizeConfig.downscaleType ?? "relative";
 
   const typeSelect = (
     <Select value={downscaleType} onValueChange={handleDownscaleTypeChange}>
-      <SelectTrigger className="w-1/3" aria-label="Scale unit">
+      <SelectTrigger className="w-1/3" aria-label="缩放单位">
         {{ relative: "%", width: "W", height: "H" }[downscaleType]}
       </SelectTrigger>
       <SelectContent>
-        <SelectItem value="relative">Relative</SelectItem>
-        <SelectItem value="width">Width</SelectItem>
-        <SelectItem value="height">Height</SelectItem>
+        <SelectItem value="relative">百分比</SelectItem>
+        <SelectItem value="width">宽度</SelectItem>
+        <SelectItem value="height">高度</SelectItem>
       </SelectContent>
     </Select>
   );
@@ -58,7 +55,6 @@ export const DownscaleSetting = () => {
 };
 
 const DownscaleAbsoluteSelect = ({ type }: { type: "width" | "height" }) => {
-  const trackHasUsed = useTrackHasUsed();
   const { optimizeConfig, setOptimizeConfig } = useOptimizeConfig();
 
   let downscaleKey: keyof OptimizeConfig;
@@ -82,7 +78,6 @@ const DownscaleAbsoluteSelect = ({ type }: { type: "width" | "height" }) => {
       [downscaleKey]: number,
     });
 
-    trackHasUsed("downscale_absolute_setting");
   };
 
   return (
